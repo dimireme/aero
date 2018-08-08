@@ -2,11 +2,13 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { TextField, Button } from '@material-ui/core';
+
 import { handleSearchRequest } from '../actions/search';
 
 class SearchContainer extends PureComponent {
 	static propTypes = {
-		request: PropTypes.string,
+		searchRequest: PropTypes.string,
 		handleSearchRequest: PropTypes.func
 	};
 
@@ -31,11 +33,11 @@ class SearchContainer extends PureComponent {
 	};
 
 	render() {
-		const { request } = this.props;
+		const { searchRequest } = this.props;
 		return (
 			<div>
-				<input onChange={this.onChangeEvent} value={request}/>
-				<button onClick={this.onClickEvent}>Отмена</button>
+				<TextField label="Board Number" value={searchRequest} onChange={this.onChangeEvent} />
+				{ searchRequest && <Button onClick={this.onClickEvent}>Очистить</Button> }
 			</div>
 		)
 	}
@@ -43,7 +45,7 @@ class SearchContainer extends PureComponent {
 
 function mapStateToProps(state) {
 	return {
-		request: state.searchRequest
+		searchRequest: state.searchRequest
 	}
 }
 

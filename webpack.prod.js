@@ -26,6 +26,11 @@ module.exports = merge(common, {
 					}
 				],
 			},
+			{
+				test: /\.css$/,
+				include: /node_modules/,
+				use: [ MiniCssExtractPlugin.loader, 'css-loader' ]
+			}
 		]
 	},
 

@@ -20,12 +20,13 @@
     "build": "webpack --config webpack.prod.js"
   },
   "dependencies": {
+    "@material-ui/core": "^1.4.3",
+    "prop-types": "latest",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
-    "redux-actions": "^2.6.1",
-    "prop-types": "latest"
+    "redux-actions": "^2.6.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

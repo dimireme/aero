@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { Button } from '@material-ui/core';
+
 import { loadFlights } from '../actions/flight';
 
 class NavContainer extends PureComponent {
@@ -26,9 +28,9 @@ class NavContainer extends PureComponent {
 	render() {
 		return (
 			<div>
-				<p onClick={this.onEvent} data-status="departed">Вылет</p>
-				<p onClick={this.onEvent} data-status="arrived">Прилет</p>
-				<p onClick={this.onEvent} data-status="delayed">Задержанные рейсы</p>
+				<Button color="primary" onClick={this.onEvent} data-status="departed">Вылет</Button>
+				<Button	color="primary" onClick={this.onEvent} data-status="arrived">Прилет</Button>
+				<Button color="primary"	onClick={this.onEvent} data-status="delayed">Задержанные рейсы</Button>
 			</div>
 		)
 	}
