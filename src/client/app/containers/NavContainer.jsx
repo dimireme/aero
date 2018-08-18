@@ -36,7 +36,6 @@ class NavContainer extends PureComponent {
 	}
 }
 
-
 function mapDispatchToProps(dispatch) {
 	return {
 		load: (status) => loadFlights(dispatch)(status),
