@@ -27,7 +27,9 @@ class FlightsListContainer extends PureComponent {
 
 		return (
 			<Loader loaded={isLoaded}>
-				{error ? <Error message={error}/> : <FlightList flights={flights} />}
+				<Error message={error}>
+					<FlightList flights={flights} />
+				</Error>
 			</Loader>
 		)
 	}
