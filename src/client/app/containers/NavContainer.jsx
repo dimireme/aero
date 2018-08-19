@@ -15,38 +15,31 @@ class NavContainer extends PureComponent {
 
 		this.state = {
 			menuItems: [
-				{text: 'Вылет',             status:'departed', isSelected: true},
-				{text: 'Прилет',            status:'arrived',  isSelected: false},
-				{text: 'Задержанные рейсы', status:'delayed',  isSelected: false},
-			]
+				{text: 'Вылет',             status:'departed'},
+				{text: 'Прилет',            status:'arrived'},
+				{text: 'Задержанные рейсы', status:'delayed'},
+			],
+			status: 'departed'
 		}
 
 	}
 
 	componentDidMount() {
-		const { menuItems } = this.state;
-		const status = getStatusBySelected(menuItems);
-		this.props.loadFlights(status);
+		const { status } = this.state;
+		const { loadFlights } = this.props;
+		if (typeof loadFlights === 'function') {
+			loadFlights(status);
+		}
 	}
 
 	onClickEvent = (event) => {
 		event.preventDefault();
 
 		// update status in local state
-		const { menuItems } = this.state;
-		const status = getStatusBySelected(menuItems);
 		const newStatus = event.currentTarget.dataset.status;
-		if(status !== newStatus ) {
-			const newMenuItems = menuItems.map((item) => {
-				return {
-					...item,
-					isSelected: (item.status === newStatus),
-				}
-			});
-			this.setState({
-				menuItems: newMenuItems,
-			});
-		}
+		this.setState({
+			status: newStatus
+		});
 
 		// load new list of flights
 		const { loadFlights } = this.props;
@@ -57,9 +50,13 @@ class NavContainer extends PureComponent {
 
 
 	render() {
-		const { menuItems } = this.state;
+		const { menuItems, status } = this.state;
 		return (
-			<Nav menuItems={menuItems} onClickEvent={this.onClickEvent}/>
+			<Nav
+				menuItems={menuItems}
+				status={status}
+				onClickEvent={this.onClickEvent}
+			/>
 		)
 	}
 }
@@ -68,17 +65,6 @@ function mapDispatchToProps(dispatch) {
 	return {
 		loadFlights: (status) => loadFlights(dispatch)(status),
 	}
-}
-
-function getStatusBySelected(menuItems) {
-	return menuItems.reduce(
-		(acc, item) => {
-			if (item.isSelected) {
-				acc = item.status;
-			}
-			return acc;
-		}, menuItems[0].status
-	);
 }
 
 export default connect(null, mapDispatchToProps)(NavContainer);
