@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Loader from 'react-loader';
 
 import FlightList from '../components/FlightsList';
+import Error from '../components/Error';
 
 class FlightsListContainer extends PureComponent {
 	static propTypes = {
@@ -15,10 +17,6 @@ class FlightsListContainer extends PureComponent {
 		let { flights } = this.props;
 		const { error, searchRequest } = this.props;
 
-		if(error) return ( <div>Fail flights loading: {error}</div> );
-
-		if(!flights.length) return ( <div>Loading...</div> );
-
 		if(searchRequest) {
 			const re = new RegExp(searchRequest.toString(), 'i');
 			flights = flights.filter((flight) => {
@@ -27,7 +25,9 @@ class FlightsListContainer extends PureComponent {
 		}
 
 		return (
-			<FlightList flights={flights} />
+			<Loader loaded={!!flights.length}>
+				{error ? <Error message={error}/> : <FlightList flights={flights} />}
+			</Loader>
 		)
 	}
 }
