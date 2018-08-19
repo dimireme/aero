@@ -2,9 +2,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { Button } from '@material-ui/core';
-
 import { loadFlights } from '../actions/flight';
+import Nav from '../components/Nav';
 
 class NavContainer extends PureComponent {
 	static propTypes = {
@@ -25,7 +24,7 @@ class NavContainer extends PureComponent {
 	}
 
 	componentDidMount() {
-		const menuItems = this.state.menuItems;
+		const { menuItems } = this.state;
 		const status = getStatusBySelected(menuItems);
 		this.props.loadFlights(status);
 	}
@@ -34,7 +33,7 @@ class NavContainer extends PureComponent {
 		event.preventDefault();
 
 		// update status in local state
-		const menuItems = this.state.menuItems;
+		const { menuItems } = this.state;
 		const status = getStatusBySelected(menuItems);
 		const newStatus = event.currentTarget.dataset.status;
 		if(status !== newStatus ) {
@@ -59,18 +58,8 @@ class NavContainer extends PureComponent {
 
 	render() {
 		const { menuItems } = this.state;
-		console.log(menuItems);
 		return (
-			<div>
-				{menuItems.map((item, i) =>
-					<Button
-						onClick={this.onClickEvent}
-						color={item.isSelected ? 'primary' : 'default'}
-						data-status={item.status}
-						key = {i}
-					>{item.text}</Button>
-				)}
-			</div>
+			<Nav menuItems={menuItems} onClickEvent={this.onClickEvent}/>
 		)
 	}
 }
