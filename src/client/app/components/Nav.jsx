@@ -4,32 +4,32 @@ import { Button } from '@material-ui/core';
 
 class Nav extends PureComponent {
 	static propTypes = {
-		onClickEvent: PropTypes.func.isRequired,
 		menuItems: PropTypes.arrayOf(
 			PropTypes.shape({
 				text: PropTypes.string,
 				status: PropTypes.string,
-				isSelected: PropTypes.bool
 			})
 		),
+		status: PropTypes.string,
+		onClickEvent: PropTypes.func.isRequired,
 	};
 
-	onClick = (e) => {
+	onClick = (event) => {
+		event.preventDefault();
 		const { onClickEvent } = this.props;
 		if (typeof onClickEvent === 'function') {
-			onClickEvent(e);
+			onClickEvent(event);
 		}
-		e.preventDefault();
 	};
 
 	render() {
-		const { menuItems } = this.props;
+		const { menuItems, status } = this.props;
 		return (
 			<div>
 				{menuItems.map((item, i) =>
 					<Button
 						onClick={this.onClick}
-						color={item.isSelected ? 'primary' : 'default'}
+						color={(item.status === status) ? 'primary' : 'default'}
 						data-status={item.status}
 						key = {i}
 					>{item.text}</Button>
