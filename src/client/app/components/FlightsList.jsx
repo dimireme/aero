@@ -35,11 +35,12 @@ FlightsList.propTypes = {
 	flights: PropTypes.arrayOf(
 		PropTypes.shape({
 			id: PropTypes.number,
-			from: PropTypes.string,
-			startTime: PropTypes.string,
-			to: PropTypes.string,
-			endTime: PropTypes.string,
 			boardNumber: PropTypes.string,
+			from: PropTypes.string,
+			to: PropTypes.string,
+			startTime: PropTypes.string,
+			endTime: PropTypes.string,
+			status: PropTypes.string,
 		})
 	),
 };

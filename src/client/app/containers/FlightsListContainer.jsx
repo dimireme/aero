@@ -11,11 +11,12 @@ class FlightsListContainer extends PureComponent {
 		flights: PropTypes.array,
 		error: PropTypes.string,
 		searchRequest: PropTypes.string,
+		isLoaded: PropTypes.bool,
 	};
 
 	render() {
 		let { flights } = this.props;
-		const { error, searchRequest } = this.props;
+		const { error, searchRequest, isLoaded } = this.props;
 
 		if(searchRequest) {
 			const re = new RegExp(searchRequest.toString(), 'i');
@@ -25,7 +26,7 @@ class FlightsListContainer extends PureComponent {
 		}
 
 		return (
-			<Loader loaded={!!flights.length}>
+			<Loader loaded={isLoaded}>
 				{error ? <Error message={error}/> : <FlightList flights={flights} />}
 			</Loader>
 		)
@@ -37,6 +38,7 @@ function mapStateToProps(state) {
 		flights: state.flights,
 		error: state.error,
 		searchRequest: state.searchRequest,
+		isLoaded: state.isLoaded,
 	}
 }
 

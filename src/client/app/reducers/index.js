@@ -5,33 +5,35 @@ import { changeSearchRequest } from '../actions/search';
 
 const initialState = {
 	flights: [],
-	status: 'departing',
-	searchRequest: '',
 	error: '',
+	searchRequest: '',
+	isLoaded: false,
 };
 
 export default handleActions({
 
-	[loadFlightsStart]: (state, action) => {
+	[loadFlightsStart]: (state) => {
 		return {
 			...state,
 			flights: [],
-			status: action.payload
+			error: '',
+			isLoaded: false,
 		};
 	},
 
 	[loadFlightsSuccess]: (state, action) => {
 		return {
 			...state,
-			error: '',
-			flights: action.payload
+			flights: action.payload,
+			isLoaded: true,
 		};
 	},
 
 	[loadFlightsFailure]: (state, action) => {
 		return {
 			...state,
-			error: action.payload.message
+			error: action.payload.message,
+			isLoaded: true,
 		}
 	},
 

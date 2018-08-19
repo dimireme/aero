@@ -20,13 +20,12 @@ export const loadFlights = (dispatch) => (status) => {
 		.catch(err => dispatch(loadFlightsFailure(`Failed to load flights: ${err}`)));
 */
 
-	dispatch(loadFlightsStart(status));
+	dispatch(loadFlightsStart());
 	setTimeout(function() {
 		const flights = flightsList.filter((flight) => {
 			return flight.status === status;
 		});
 		dispatch(loadFlightsSuccess(flights));
+		//dispatch(loadFlightsFailure(new Error('Database error')));
 	}, 2000);
-
-
 };
