@@ -2,43 +2,68 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { Button } from '@material-ui/core';
-
 import { loadFlights } from '../actions/flight';
+import Nav from '../components/Nav';
 
 class NavContainer extends PureComponent {
 	static propTypes = {
-		load: PropTypes.func,
+		loadFlights: PropTypes.func,
 	};
 
-	componentDidMount() {
-		this.props.load('departed');
-	}
+	constructor(props) {
+		super(props);
 
-	onEvent = (event) => {
-		const { load } = this.props;
-
-		if (typeof load === 'function') {
-			load(event.currentTarget.dataset.status);
+		this.state = {
+			menuItems: [
+				{text: 'Вылет',             status:'departed'},
+				{text: 'Прилет',            status:'arrived'},
+				{text: 'Задержанные рейсы', status:'delayed'},
+			],
+			status: 'departed'
 		}
 
+	}
+
+	componentDidMount() {
+		const { status } = this.state;
+		const { loadFlights } = this.props;
+		if (typeof loadFlights === 'function') {
+			loadFlights(status);
+		}
+	}
+
+	onClickEvent = (event) => {
 		event.preventDefault();
+
+		// update status in local state
+		const newStatus = event.currentTarget.dataset.status;
+		this.setState({
+			status: newStatus
+		});
+
+		// load new list of flights
+		const { loadFlights } = this.props;
+		if (typeof loadFlights === 'function') {
+			loadFlights(newStatus);
+		}
 	};
 
+
 	render() {
+		const { menuItems, status } = this.state;
 		return (
-			<div>
-				<Button color="primary" onClick={this.onEvent} data-status="departed">Вылет</Button>
-				<Button	color="primary" onClick={this.onEvent} data-status="arrived">Прилет</Button>
-				<Button color="primary"	onClick={this.onEvent} data-status="delayed">Задержанные рейсы</Button>
-			</div>
+			<Nav
+				menuItems={menuItems}
+				status={status}
+				onClickEvent={this.onClickEvent}
+			/>
 		)
 	}
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		load: (status) => loadFlights(dispatch)(status),
+		loadFlights: (status) => loadFlights(dispatch)(status),
 	}
 }
 
