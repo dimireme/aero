@@ -8,8 +8,8 @@ export const loadFlightsFailure = createAction('LOAD_FLIGHTS_FAILURE');
 
 export const loadFlights = (dispatch) => (status) => {
 
-// Can't find free api, so decided to use local file
-/*
+	// Can't find free api, so decided to use local file
+	/*
 	dispatch(loadFlightsStart(status));
 	fetch(`http://flights.api/path/to/the/endpoint/${status}`)
 		.then(res => res.json())
@@ -18,7 +18,7 @@ export const loadFlights = (dispatch) => (status) => {
 			dispatch(loadFlightsSuccess(flights));
 		})
 		.catch(err => dispatch(loadFlightsFailure(`Failed to load flights: ${err}`)));
-*/
+	*/
 
 	dispatch(loadFlightsStart());
 	setTimeout(function() {
